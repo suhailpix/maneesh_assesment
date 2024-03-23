@@ -11,8 +11,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             {% if user_role == 'recruiter' %}
-                <a class="navbar-brand" href="{% url 'home' %}">ONBoard</a>
-            {% enfif %}
+                <a class="navbar-brand" href="{% url 'home' %}">ONBoard Recruiter</a>
+                {% else %}
+                <a class="navbar-brand" href="{% url 'home' %}">ONBoard Job-Seeker</a>
+            {% endif %}
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>

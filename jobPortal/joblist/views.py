@@ -77,13 +77,15 @@ def signup_select(request):
 
 def all_applicants(request):
     user_profile = request.session.get('loginusername') 
-    application_Data = Application.objects.filter(username=user_profile).values()
-    return render(request, 'all_applicants.html',{'loginusername':user_profile,"application_Data":application_Data})
+    user_role = request.session.get('user_role')
+    application_Data = Application.objects.all()
+    return render(request, 'all_applicants.html',{'loginusername':user_profile,"application_Data":application_Data,'user_role':user_role})
 
 def track_applications(request):
     user_profile = request.session.get('loginusername') 
+    user_role = request.session.get('user_role')
     application_Data = Application.objects.filter(username=user_profile).values()
-    return render(request, 'track_applications.html',{'loginusername':user_profile,"application_Data":application_Data})
+    return render(request, 'track_applications.html',{'loginusername':user_profile,"application_Data":application_Data,'user_role':user_role})
 
 @login_required
 def profile(request):

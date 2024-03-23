@@ -15,7 +15,9 @@
             <h5 class="card-title">Company Name: {{ job.company_name }}</h5>
             <p class="card-text">Job Description:<br> {{ job.job_description }}</p>
             <p class="card-text">Location : {{ job.job_location }}  &nbsp; &nbsp; &nbsp;    Job Type: {{ job.job_type }}</p>
-            <a href="#" class="btn btn-primary" onclick="applyForJob('{{ job.job_title }}', '{{ job.company_name }}',this)">Apply Now</a>
+            {% if user_role != 'recruiter' %}
+                <a href="#" class="btn btn-primary" onclick="applyForJob('{{ job.job_title }}', '{{ job.company_name }}',this)">Apply Now</a>
+            {% endif %}
             <p class="card-text"><small class="text-muted">Job Posted {{ job.job_createdtime|timesince }} ago</small></p>
             </div>
         </div>
