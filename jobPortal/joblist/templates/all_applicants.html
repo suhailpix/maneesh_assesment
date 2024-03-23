@@ -1,0 +1,56 @@
+<!-- HTML Template -->
+{% extends 'base.html' %}
+{% block content %}
+{% if application_Data %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Job Title</th>
+            <th>Applied Date</th>
+            <th>View</th>
+            <th>Approve</th>
+        </tr>
+        {% for application in application_Data %}
+            <tr>
+                <td>{{ application.username }}</td>
+                <td>{{ application.job }}</td>
+                <td>{{ application.applied_date }}</td>
+                <td>
+                    <button onclick="updateStatus('{{ application.id }}','Application Viewed')">Click</button>
+                </td>
+                <td>
+                    <button id="approvebtn" onclick="updateStatus('{{ application.id }}','Application Approved')">Click</button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<script>
+    function updateStatus(applicationId,status) {
+        var formData = new FormData();
+        formData.append('applicationId',applicationId);
+        formData.append('status',status);
+        fetch('{% url "update_application_status" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Application status updated successfully');
+                // Optionally, update UI or show a success message
+            } else {
+                alert('Failed to update application status');
+                // Optionally, handle error case
+            }
+        })
+        .catch(error => {
+            console.error('Error updating application status:', error);
+        });
+    }
+</script>
+
+{% endblock %}

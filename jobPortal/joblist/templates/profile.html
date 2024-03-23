@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <div>
+    </div>
+</body>
+</html> -->
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+    
+    ///// _mixins.scss
+    
+    @mixin display-flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    ///// _mixins.scss
+    
+    * {
+        margin: 0;
+        padding: 0;
+        
+        box-sizing: border-box;
+    }
+    
+    body {
+        @include display-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        font-family: "Poppins", sans-serif;
+    }
+    
+    .profile-cards {
+    @include display-flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    
+    margin: 30px;
+    
+    .card {
+        display: flex;
+        align-items: center;
+        
+        
+        position: relative;
+        
+        color: #2d2d2d;
+        background-color: #b2e5e6;
+        letter-spacing: 1px;
+        border: 25px solid #a0cdcf;
+        border-radius: 25px;
+        
+        overflow: hidden;
+        
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        
+        .card-description {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            
+            padding: 40px;
+            
+            width: auto;
+            height: 100%;
+            
+            .card-description-title {
+                color: black;
+                
+                font-size: 18px;
+            }
+
+            .card-description-profession {
+                display: block;
+
+            font-size: 16px;
+        }
+        
+        .card-description-company {
+            display: block;
+            
+            font-size: 14px;
+            
+            cursor: pointer;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        
+        .card-description-social {
+            position: absolute;
+            bottom: 40px;
+            
+            .card-description-social-follow {
+                display: block;
+                
+                margin-bottom: 8px;
+
+            color: #555572;
+            font-size: 14px;
+        }
+        
+        ul {
+            @include display-flex;
+            gap: 10px;
+            
+            li {
+                list-style-type: none;
+                
+                a {
+                    @include display-flex;
+                    
+                    width: 40px;
+                height: 40px;
+                
+                color: #121212;
+                
+                border-radius: 50%;
+                
+                box-shadow: 6px 6px 12px #97c3c4, -6px -6px 12px #cdffff;
+                
+                transition: all 0.4s;
+                
+                &:hover {
+                    color: white;
+                    
+                    transform: translate(0, -7px);
+                }
+                
+                svg {
+                    width: calc(100% - 15px);
+                    height: calc(100% - 15px);
+                }
+            }
+        }
+        
+        li:nth-child(1) {
+            a {
+                &:hover {
+                    background-color: #1da1f2;
+                }
+            }
+        }
+        
+        li:nth-child(2) {
+            a {
+                &:hover {
+                    background-color: #3f729b;
+                }
+            }
+        }
+        
+        li:nth-child(3) {
+            a {
+                &:hover {
+                    background-color: #00405d;
+                }
+            }
+        }
+        
+        li:nth-child(4) {
+            a {
+                &:hover {
+                    background-color: #0a66c2;
+                }
+            }
+        }
+    }
+}
+        }
+        
+        .card-image {
+            width: 250px;
+            height: 100%;
+            
+            object-fit: cover;
+        }
+    }
+}
+
+</style>
+{% if profile %}
+    {% for prof in profile %}
+        {% if 'company_name' not in prof %}
+            <div class="profile-cards">
+                
+                <div class="card card-1">
+                    
+                    <div class="card-description">
+                        
+                        <h2 class="card-description-title"><p><strong>Full Name:</strong> {{ prof.full_name }}</p></h2>
+                        
+                        <span class="card-description-profession"><p><strong>Phone:</strong> {{ prof.phone }}</p></span>
+
+                        <span class="card-description-profession"><p><strong>Email:</strong> {{ prof.email }}</p></span>
+                        
+                        <span class="card-description-profession"><p><strong>Resume:</strong> <a href="{{ prof.resume.url }}">{{ prof.resume }}</a></p></span>
+
+                        <span class="card-description-profession"><p><strong>Description:</strong> {{ prof.cover_letter }}</p></span>
+                        
+                    </div>
+                    
+                    <img src="{% static 'img/profileImage.png' %}" width="50px" class="card-image">
+                    
+                </div>
+                
+            </div>
+            {% else %}
+                <div class="profile-cards">
+                    
+                    <div class="card card-1">
+                        
+                        <div class="card-description">
+                            
+                            <h2 class="card-description-title"><p><strong>Full Name:</strong> {{ prof.username }}</p></h2>
+                            
+                            <span class="card-description-profession"><p><strong>Phone:</strong> {{ prof.phone }}</p></span>
+
+                            <span class="card-description-profession"><p><strong>Email:</strong> {{ prof.email }}</p></span>
+                            
+                            <span class="card-description-profession"><p><strong>Company Name: </strong> {{ prof.company_name }}</p></span>
+                            
+                        </div>
+                        
+                        <img src="{% static 'img/profileImage.png' %}" width="50px" class="card-image">
+                        
+                    </div>
+                    
+                </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}

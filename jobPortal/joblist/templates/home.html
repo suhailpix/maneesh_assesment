@@ -1,0 +1,79 @@
+<!-- Inside your template -->
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex align-items-center">
+    <input type="text" id="searchField" class="form-control me-2" placeholder="Search Job...">
+</div>
+<br>
+
+{% for job in jobs %}
+    <div class="card-group">
+        <div class="card border-info mb-3" >
+            <h5 class="card-header">{{ job.job_title }}</h5>
+            <div class="card-body">
+            <h5 class="card-title">Company Name: {{ job.company_name }}</h5>
+            <p class="card-text">Job Description:<br> {{ job.job_description }}</p>
+            <p class="card-text">Location : {{ job.job_location }}  &nbsp; &nbsp; &nbsp;    Job Type: {{ job.job_type }}</p>
+            <a href="#" class="btn btn-primary" onclick="applyForJob('{{ job.job_title }}', '{{ job.company_name }}',this)">Apply Now</a>
+            <p class="card-text"><small class="text-muted">Job Posted {{ job.job_createdtime|timesince }} ago</small></p>
+            </div>
+        </div>
+{% endfor %}
+
+<script>
+    document.getElementById('searchField').addEventListener('input', function() {
+        search();
+    });
+    
+    function search() {
+        var searchTerm = document.getElementById("searchField").value.toLowerCase();
+        console.log("searchTerm",searchTerm)
+        var cards = document.querySelectorAll(".card-group .card");
+        
+        cards.forEach(function(card) {
+        var cardContent = card.innerText.toLowerCase();
+        var regex = new RegExp(searchTerm, 'gi'); // 'gi' flags for global and case-insensitive search
+        if (regex.test(cardContent)) { // Use test method of RegExp to check if there's a match
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+    }
+
+    function applyForJob(jobTitle, companyName,button) {
+        var formData = new FormData();
+        formData.append('username', '{{ user.username }}');
+        formData.append('job', jobTitle);
+        formData.append('company_name', companyName);
+        
+        fetch('{% url "apply_for_job" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Application submitted successfully');
+                alert('Application submitted successfully');
+                // Change button text to "Applied"
+                button.textContent = "Applied";
+                button.classList.remove("btn-primary"); // Optionally, remove primary style
+                button.classList.add("btn-success"); // Optionally, add success style
+                button.removeAttribute("onclick"); // Optionally, remove onclick event
+                // Optionally, update UI or show a success message
+            } else {
+                console.error('Failed to submit application');
+                alert('Failed to submit application');
+                // Optionally, handle error case
+            }
+        })
+        .catch(error => {
+            console.error('Error submitting application:', error);
+        });
+    }
+</script>
+{% endblock %}

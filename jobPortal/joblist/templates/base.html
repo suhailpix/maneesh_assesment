@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            {% if user_role == 'recruiter' %}
+                <a class="navbar-brand" href="{% url 'home' %}">ONBoard</a>
+            {% enfif %}
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                  
+            {% if user_role == 'recruiter' %}
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'addJob' %}">List a JOB</a>
+                  </li>   
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'all_applicants' %}">All Applicants</a>
+                  </li>   
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
+                  </li>   
+            {% else %}
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Search Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'track_applications' %}">My Applications</a>
+                </li>   
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
+                </li>   
+            {% endif %}
+            </ul>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-outline-light me-2" type="button" id="loginbtn"  ><a class="nav-link" href="{% url 'logout' %}">Login</a></button>
+          </div>
+        </div>
+      </nav>
+      <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        }
+    
+        .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        form {
+        display: flex;
+        flex-direction: column;
+        }
+    
+        .form-group {
+        margin-bottom: 20px;
+        }
+    
+        label {
+        font-weight: bold;
+        }
+    
+        input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        }
+    
+        button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+        a{
+        text-decoration: none;
+        color: white;
+        }
+        button:hover {
+        background-color: #0056b3;
+        }
+        #approvebtn {
+        background-color: #0ea004;
+        }
+        .search-bar {
+        display: flex;
+        align-items: center;
+        }
+        .search-bar input[type="text"] {
+        flex: 1;
+        margin-right: 10px;}
+
+        #progressbar {
+            margin-bottom: 3vh;
+            overflow: hidden;
+            color: rgb(252, 103, 49);
+            padding-left: 0px;
+            margin-top: 3vh
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: x-small;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+            color: rgb(160, 159, 159);
+        }
+
+        #progressbar #step1:before {
+            content: "";
+            color: rgb(252, 103, 49);
+            width: 5px;
+            height: 5px;
+            margin-left: 0px !important;
+            /* padding-left: 11px !important */
+        }
+
+        #progressbar #step2:before {
+            content: "";
+            color: #fff;
+            width: 5px;
+            height: 5px;
+            margin-left: 32%;
+        }
+
+        #progressbar #step3:before {
+            content: "";
+            color: #fff;
+            width: 5px;
+            height: 5px;
+            margin-right: 32% ; 
+            /* padding-right: 11px !important */
+        }
+
+        #progressbar #step4:before {
+            content: "";
+            color: #fff;
+            width: 5px;
+            height: 5px;
+            margin-right: 0px !important;
+            /* padding-right: 11px !important */
+        }
+
+        #progressbar li:before {
+            line-height: 29px;
+            display: block;
+            font-size: 12px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: auto;
+            z-index: -1;
+            margin-bottom: 1vh;
+        }
+
+        #progressbar li:after {
+            content: '';
+            height: 2px;
+            background: #ddd;
+            position: absolute;
+            left: 0%;
+            right: 0%;
+            margin-bottom: 2vh;
+            top: 1px;
+            z-index: 1;
+        }
+        .progress-track{
+            padding: 0 8%;
+        }
+        #progressbar li:nth-child(2):after {
+            margin-right: auto;
+        }
+
+        #progressbar li:nth-child(1):after {
+            margin: auto;
+        }
+
+        #progressbar li:nth-child(3):after {
+            float: left;
+            width: 68%;
+        }
+        #progressbar li:nth-child(4):after {
+            margin-left: auto;
+            width: 132%;
+        }
+
+        #progressbar  li.active{
+            color: black;
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: rgb(252, 103, 49);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+      {% block content %}
+      {% endblock %}
+      
+      
+      {% if loginusername %}
+          <script>
+              var element = document.getElementById("loginbtn");
+              element.querySelector("a").textContent = 'Logout ({{loginusername}})';
+          </script>
+      {% endif %}
+</body>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</html>

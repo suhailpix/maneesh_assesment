@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if application_Data %}
+    <table>
+        <tr>
+            <th>Job Name</th>
+            <th>Company Name</th>
+            <th>Status</th>
+            <th>Applied Date</th>
+        </tr>
+        {% for application in application_Data %}
+            <tr>
+                <td>{{application.job}}</td>
+                <td>{{application.company_name}}</td>
+                <td><div class="progress-track">
+                    <ul id="progressbar">
+                        <li class="step0 active" id="step1">Pending</li>
+                        <li class="step0 {% if application.status == 'Application Viewed' or application.status == 'Application Approved' %} active {% endif %} text-center" id="step2">Application Viewed</li>
+                        <li class="step0 {% if application.status == 'Application Approved' %} active {% endif %} text-right" id="step3">Application Approved</li>
+                        <!-- Add similar conditions for other statuses -->
+                    </ul>
+                    </div></td>
+                <td>{{application.applied_date}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% endblock %}

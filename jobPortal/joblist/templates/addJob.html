@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+</style>
+<div class="container">
+  <form id="addJobform" action="/addJob/" method="post">
+    {% csrf_token %}
+    <h2>Post a New Job</h2>
+    <div class="form-group">
+      <label for="jobTitle">Job Title:</label>
+      <input type="text" id="jobTitle" name="jobTitle" required>
+    </div>
+    <div class="form-group">
+      <label for="companyName">Company Name:</label>
+      <input type="text" id="companyName" name="companyName" required>
+    </div>
+    <div class="form-group">
+      <label for="jobDescription">Job Description:</label>
+      <textarea id="jobDescription" name="jobDescription" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="jobLocation">Job Location:</label>
+      <input type="text" id="jobLocation" name="jobLocation" required>
+    </div>
+    <div class="form-group">
+      <label for="jobType">Job Type:</label>
+      <select id="jobType" name="jobType" required>
+        <option value="fullTime">Full Time</option>
+        <option value="partTime">Part Time</option>
+        <option value="contract">Contract</option>
+        <option value="remote">Remote</option>
+      </select>
+    </div>
+    <button type="submit">Post Job</button>
+  </form>
+</div>
+
+<script>
+  // In your HTML or JavaScript file
+$(document).ready(function() {
+  $('#addJobform').submit(function(event) {
+      event.preventDefault();
+      $.ajax({
+          type: 'POST',
+          url: '/addJob/',
+          data: $(this).serialize(),
+          success: function(response) {
+              alert(response.message);
+              // Optionally, you can redirect to another page here
+          },
+          error: function(xhr, status, error) {
+              console.error(xhr.responseText);
+              alert('An error occurred while adding the job.');
+          }
+      });
+  });
+});
+</script>
+
+{% endblock %}

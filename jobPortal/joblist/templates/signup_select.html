@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONBoard</title>
+</head>
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Poppins', sans-serif;
+}
+body{
+    background-color: #328f8a;
+    background-image: linear-gradient(45deg,#328f8a,#08ac4b);
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.card{
+width: 250px;
+height: 300px;
+position: relative;
+cursor: pointer;
+}
+a{
+    color: #024104;
+    text-decoration: none;
+}
+.card .content{
+width: 100%;
+height: 100%;
+background: rgba(255, 255, 255, 0.089);
+backdrop-filter: blur(20px);
+border: 1px solid white;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+box-shadow: 0 0 30px rgba(0, 0, 0, 0.055);
+transition: all .4s;
+}
+.card .content p{
+font-size: 0.8em;
+padding: 0.3em 1.5em;
+text-align: center;
+}
+.card:hover .content{
+color: rgb(36, 36, 36);
+}
+.card::before,
+.card::after{
+content: '';
+position: absolute;
+width: 100%;
+height: 50%;
+background: #70f6c3;
+z-index: -20;
+transition: all .4s;
+}
+.card::before{
+top: 0;
+right: 0;
+}
+.card::after{
+bottom: 0;
+left: 0;
+background: #5cd45e;
+}
+.card:hover::before{
+width: 50px;
+height: 50px;
+transform: translate(20px, -20px);
+border-radius: 50%;
+}
+.card:hover::after{
+width: 100px;
+height: 100px;
+transform: translate(-20px, 20px);
+border-radius: 50%;
+}
+    </style>
+<div class="card">
+<div class="content" >
+    <a href="{% url 'signup' %}">
+    <p>I'm a</p>
+    <h1>Job Seeker
+    </h1>
+    </a>
+</div>
+</div>
+<br>
+<div class="card">
+<div class="content">
+    <a href="{% url 'signup_recruiter' %}">
+    <p>I'm a</p>
+    <h1>Recruiter
+    </h1>
+    </a>
+</div>
+</div>
+</body>
+</html>
